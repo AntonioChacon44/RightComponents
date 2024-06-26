@@ -1,0 +1,14 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<project version="4">
+  <component name="PHPUnit">
+    <option name="directories">
+      <list>
+        <option value="$PROJECT_DIR$/web/modules/contrib/address/lib/doctrine-collections/1.8.0/tests" />
+        <option value="$PROJECT_DIR$/web/modules/contrib/address/lib/doctrine-deprecations/v1.1.1/tests" />
+        <option value="$PROJECT_DIR$/tests" />
+        <option value="$PROJECT_DIR$/web/modules/contrib/address/lib/commerceguys-addressing/v2.1.1/tests" />
+        <option value="$PROJECT_DIR$/web/modules/contrib/commerce/lib/commerceguys-intl/v2.0.1/tests" />
+      </list>
+    </option>
+  </component>
+</project>

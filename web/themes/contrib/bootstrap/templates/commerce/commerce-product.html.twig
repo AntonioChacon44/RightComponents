@@ -1,0 +1,139 @@
+{#
+/**
+ * @file
+ *
+ * Default product template.
+ *
+ * Available variables:
+ * - attributes: HTML attributes for the wrapper.
+ * - product: The rendered product fields.
+ *   Use 'product' to print them all, or print a subset such as
+ *   'product.title'. Use the following code to exclude the
+ *   printing of a given field:
+ *   @code
+ *   {{ product|without('title') }}
+ *   @endcode
+ * - product_entity: The product entity.
+ * - product_url: The product URL.
+ * - title_prefix: Additional output populated by modules, intended to be
+ *   displayed in front of the main title tag that appears in the template.
+ * - title_suffix: Additional output populated by modules, intended to be
+ *   displayed after the main title tag that appears in the template.
+ *
+ * @ingroup themeable
+ */
+#}
+
+<style type="text/css">
+	.page-header {
+	display: none;
+	}
+</style>
+
+<article{{ attributes }}>
+  {{ title_prefix }}
+  {{ title_suffix }}
+  {# - product|without('variation_attributes') - #}
+</article>
+
+<div class="col-md-6">
+
+  {% set preciodeventa = product.variation_field_precio_de_venta.0["#markup"]|replace( { ' €': ''}) %}
+  {% set preciooriginal = product.variation_price.0["#markup"]|replace( { ' €': ''}) %}
+
+  {% set is_MSI = false %}
+  {% for term in product.field_marca_portatil %}
+    {% if term.entity.name.value == 'MSI' %}
+      {% set is_MSI = true %}
+    {% endif %}
+  {% endfor %}
+
+  {% if is_MSI %}
+    <span class="badge-offer"><b> - 20%</b></span>
+  {% endif %}
+
+  {{ product.variation_field_imagen_categoria }}
+</div>
+
+<div class="col-md-6">
+  <h3>{{ product.title }}</h3>
+  <br>
+  {{ product.field_categoria }}
+  {{ product.field_marca_portatil }}
+  <br>
+  {% set is_MSI = false %}
+  {% for term in product.field_marca_portatil %}
+    {% if term.entity.name.value == 'MSI' %}
+      {% set is_MSI = true %}
+    {% endif %}
+  {% endfor %}
+  {% if is_MSI %}
+    <div class="price-wrap h5 divpreciodetalle">
+      <span class="price-new">{{ product.variation_field_precio_de_venta }}</span>
+      <del class="price-old">{{ product.variation_price }}</del>
+    </div>
+
+    <style type="text/css">
+      .divpreciodetalle {
+        margin: auto;
+        display: inline-block;
+      }
+
+      .divpreciodetalle .price-new {
+        float: left;
+      }
+
+      .divpreciodetalle .price-old {
+        float: left;
+      }
+
+    </style>
+  {% else %}
+    <div class="price-wrap h5" style="color: red;">
+      <span class="price-new">{{ product.variation_price }}</span>
+    </div>
+  {% endif %}
+
+  <br>
+
+   <span>  <i class="fas fa-eye"></i> {{ visitas }} Visita(s) </span>
+    <br>
+    <span><i class="fas fa-shopping-cart"></i> {{ ventas|number_format(0, '', '') }} Venta(s)</span>
+
+  <br>
+  <br>
+  {{ product.field_descripcion_corta }}
+  <br>
+  {{ product.variations }}
+</div>
+
+
+<div class= "row col-md-12">
+
+	 <ul class="nav nav-tabs">
+     {% if product.body|render|trim is not empty %}
+	  <li class="active"><a data-toggle="tab" href="#Descripcion">Descripción</a></li>
+     {% endif %}
+     {% if product.field_especificaciones|render|trim is not empty %}
+	  <li><a data-toggle="tab" href="#especificaciones">Especificaciones</a></li>
+     {% endif %}
+	</ul>
+
+	<div class="tab-content">
+	  <div id="Descripcion" class="tab-pane fade in active">
+	    <h3>Descripción</h3>
+	    <p>{{ product.body }}</p>
+	  </div>
+	  <div id="especificaciones" class="tab-pane fade">
+	    <h3>Especificaciones</h3>
+	    <p>{{ product.field_especificaciones }}</p>
+	  </div>
+	</div>
+
+</div>
+
+<div class="itemlist row col-md-12">
+  {{ productosrecomendadosportatiles }}
+</div>
+
+
